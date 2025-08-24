@@ -1,0 +1,3 @@
+// Has switched
+
+hasSwitched = false;

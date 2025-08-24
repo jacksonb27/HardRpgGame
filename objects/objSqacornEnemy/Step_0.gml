@@ -1,0 +1,14 @@
+// Move to player
+
+if (distance_to_object(objPlayer) < 128)
+{
+	move_towards_point(objPlayer.x, objPlayer.y, 2);
+}
+
+// Battle
+if (place_meeting(x, y, objPlayer))
+{
+	//room_goto(battleRoom);
+	instance_destroy();
+	NewEncounter([global.enemies.Sqacorn], sprBattleBGForest);
+}

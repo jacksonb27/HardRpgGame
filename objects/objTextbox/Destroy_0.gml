@@ -1,0 +1,2 @@
+// Stop Sounds
+scrDestroyTextboxAudio();

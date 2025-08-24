@@ -1,0 +1,20 @@
+{
+  "FolderOrderSettings":[
+    {"name":"MenuStuff","order":1,"path":"folders/Objects/MenuStuff.yy",},
+    {"name":"BeginningRooms","order":1,"path":"folders/Rooms/BeginningRooms.yy",},
+    {"name":"Esther - Arcanist","order":8,"path":"folders/Sprites/Player Characters/Esther - Arcanist.yy",},
+    {"name":"Battle","order":1,"path":"folders/Sprites/Player Characters/Esther - Arcanist/Battle.yy",},
+    {"name":"World","order":2,"path":"folders/Sprites/Player Characters/Esther - Arcanist/World.yy",},
+    {"name":"James - Ranger","order":6,"path":"folders/Sprites/Player Characters/James - Ranger.yy",},
+    {"name":"Battle","order":1,"path":"folders/Sprites/Player Characters/James - Ranger/Battle.yy",},
+    {"name":"Luis - Sentinal","order":7,"path":"folders/Sprites/Player Characters/Luis - Sentinal.yy",},
+    {"name":"Battle","order":1,"path":"folders/Sprites/Player Characters/Luis - Sentinal/Battle.yy",},
+    {"name":"World","order":2,"path":"folders/Sprites/Player Characters/Luis - Sentinal/World.yy",},
+  ],
+  "ResourceOrderSettings":[
+    {"name":"objTextboxFullscreen","order":1,"path":"objects/objTextboxFullscreen/objTextboxFullscreen.yy",},
+    {"name":"sprPlayerSide","order":1,"path":"sprites/sprPlayerSide/sprPlayerSide.yy",},
+    {"name":"sprPlayerUp","order":2,"path":"sprites/sprPlayerUp/sprPlayerUp.yy",},
+    {"name":"sprRubberDuck","order":1,"path":"sprites/sprRubberDuck/sprRubberDuck.yy",},
+  ],
+}

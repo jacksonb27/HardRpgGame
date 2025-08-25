@@ -19,11 +19,11 @@ if (dist < 96)
 	{
 		lookingAtMe = true; // Angel is right, player looks right
 	}else
-	if (y > objPlayer.y and objPlayer.sprite_index == sprPlayerDown) 
+	if (y > objPlayer.y and objPlayer.sprite_index == sprJamesDown) 
 	{
 		lookingAtMe = true; // Angel is right, player looks up
 	}else
-	if (y < objPlayer.y and objPlayer.sprite_index == sprPlayerUp) 
+	if (y < objPlayer.y and objPlayer.sprite_index == sprJamesUp) 
 	{
 		lookingAtMe = true; // Angel is right, player looks down
 	}else lookingAtMe = false

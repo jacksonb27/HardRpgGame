@@ -2,7 +2,7 @@
 textboxWidth = room_width;
 textboxHeight = 232;
 
-border = 32;
+border = 24;
 lineSep = 32;
 lineWidth = textboxWidth - border * 2;
 textBoxSprite[0] = sprDialogueBox;

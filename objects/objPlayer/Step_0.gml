@@ -34,25 +34,25 @@ if (canMove == true and !instance_exists(objTextbox))
 {
 	if (moveUp)
 	{
-		sprite_index = sprPlayerUp;
+		sprite_index = global.playerUp;
 		image_xscale = 1;
 		playerDirection = 0;
 	}
 	if (moveDown)
 	{
-		sprite_index = sprPlayerDown;
+		sprite_index = global.playerDown;
 		image_xscale = 1;
 		playerDirection = 2;
 	}	
 	if (moveLeft)
 	{	
-		sprite_index = sprPlayerSide;
+		sprite_index = global.playerSide;
 		image_xscale = -1;
 		playerDirection = 3;
 	}
 	if (moveRight)
 	{	
-		sprite_index = sprPlayerSide;
+		sprite_index = global.playerSide;
 		image_xscale = 1;
 		playerDirection = 1;
 	}

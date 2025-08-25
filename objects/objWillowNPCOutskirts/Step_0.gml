@@ -30,17 +30,17 @@ if (!instance_exists(objTextbox) and textboxShown == true and follow == false)
 if (instance_exists(followTarget) and follow == true and objPlayer.canMove == true) {
 		switch (objPlayer.recordSprite[record])
 		{
-			case sprPlayerDown:
+			case sprJamesDown:
 				sprite_index = sprWillowDown;
 				image_xscale = 1;
 				break;
 			
-			case sprPlayerUp:
+			case sprJamesUp:
 				sprite_index = sprWillowUp;
 				image_xscale = 1;
 				break;
 			
-			case sprPlayerSide:
+			case sprJamesSide:
 				sprite_index = sprWillowSide;
 				image_xscale = objPlayer.recordXScale[record];
 				break;

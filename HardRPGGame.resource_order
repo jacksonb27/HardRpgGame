@@ -12,9 +12,13 @@
     {"name":"World","order":2,"path":"folders/Sprites/Player Characters/Luis - Sentinal/World.yy",},
   ],
   "ResourceOrderSettings":[
+    {"name":"objPrologueGameStart","order":1,"path":"objects/objPrologueGameStart/objPrologueGameStart.yy",},
+    {"name":"objRoomTransitionFadeOppositeWhite","order":1,"path":"objects/objRoomTransitionFadeOppositeWhite/objRoomTransitionFadeOppositeWhite.yy",},
     {"name":"objTextboxFullscreen","order":1,"path":"objects/objTextboxFullscreen/objTextboxFullscreen.yy",},
-    {"name":"sprPlayerSide","order":1,"path":"sprites/sprPlayerSide/sprPlayerSide.yy",},
-    {"name":"sprPlayerUp","order":2,"path":"sprites/sprPlayerUp/sprPlayerUp.yy",},
+    {"name":"scrInitializationScript","order":1,"path":"scripts/scrInitializationScript/scrInitializationScript.yy",},
+    {"name":"sprJamesSide","order":4,"path":"sprites/sprJamesSide/sprJamesSide.yy",},
+    {"name":"sprJamesUp","order":3,"path":"sprites/sprJamesUp/sprJamesUp.yy",},
+    {"name":"sprRoomTransitionFadeWhite","order":1,"path":"sprites/sprRoomTransitionFadeWhite/sprRoomTransitionFadeWhite.yy",},
     {"name":"sprRubberDuck","order":1,"path":"sprites/sprRubberDuck/sprRubberDuck.yy",},
   ],
 }

@@ -1,3 +1,5 @@
+InitializeElements();
+
 // Action Library
 global.actionLibrary = 
 {
@@ -133,7 +135,7 @@ global.party =
 		strength: 20,
 		defense: 100,
 		defenseMemory: 1,
-		sprites: {idle: sprPlayerBattleIdle, attack: sprPlayerBattleAttack, defend: sprPlayerBattleDefend, down: sprPlayerBattleDown, win: sprPlayerBattleWin},
+		sprites: {idle: global.playerIdle, attack: global.playerAttack, defend: global.playerDefend, down: sprPlayerBattleDown},
 		actions: [global.actionLibrary.defend]
 	}
 	

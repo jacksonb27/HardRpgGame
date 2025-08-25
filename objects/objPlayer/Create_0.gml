@@ -1,3 +1,36 @@
+// Sprite Selection
+switch (global.characterSelection)
+{
+	case 0: //James
+		sprite_index = sprJamesDown;
+		global.playerUp = sprJamesUp;
+		global.playerDown = sprJamesDown;
+		global.playerSide = sprJamesSide;
+		global.playerIdle = noone;
+		global.playerAttack = noone;
+		global.playerDefend = noone;
+	break;
+	
+	case 1: //Luis
+		global.playerUp = noone;
+		global.playerDown = noone;
+		global.playerSide = noone;
+		global.playerIdle = noone;
+		global.playerAttack = noone;
+		global.playerDefend = noone;
+	break;
+	
+	case 2: //Esther
+		global.playerUp = noone;
+		global.playerDown = noone;
+		global.playerSide = noone;
+		global.playerIdle = noone;
+		global.playerAttack = noone;
+		global.playerDefend = noone;
+	break;
+		
+}
+
 // Player Variables
 
 canMove = true;
@@ -16,7 +49,7 @@ for (var i = partyArray - 1; i >=0; i --)
 	posX[i] = x;
 	posY[i] = x;
 	
-	recordSprite[i] = sprPlayerDown;
+	recordSprite[i] = sprJamesDown;
 	recordXScale[i] = image_xscale;
 }
 

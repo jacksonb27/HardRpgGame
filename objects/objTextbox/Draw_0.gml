@@ -7,14 +7,14 @@ if (canAccept)
 }
 
 // ======================== Box Camera Properties ======================== //
-textBoxX = camera_get_view_x(view_camera[0]) - 34;
-textBoxY = camera_get_view_y(view_camera[0]) + 166;
+textBoxX = camera_get_view_x(view_camera[0]) - 56;
+textBoxY = camera_get_view_y(view_camera[0]) + 112;
 
 // ======================== Setup ======================== //
 if (!setup)
 {
 	setup = true;
-	draw_set_font(fntTextboxNormal);
+	draw_set_font(fntTextboxGame);
 	draw_set_valign(fa_top);
 	draw_set_halign(fa_left);
 

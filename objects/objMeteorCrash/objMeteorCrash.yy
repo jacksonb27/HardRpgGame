@@ -7,7 +7,7 @@
   "overriddenProperties":[],
   "parent":{
     "name":"Interactables",
-    "path":"folders/Objects/Areas/CastleOutskirts/Interactables.yy",
+    "path":"folders/Objects/Areas/WellspringTown/Interactables.yy",
   },
   "parentObjectId":{
     "name":"objParentInteractable",

@@ -28,7 +28,6 @@ if (canMove == true and !instance_exists(objTextbox))
 	// else: preserve xSpeed, moving if being moved externally
 }
 
-
 // Sprites
 if (canMove == true and !instance_exists(objTextbox))
 {
@@ -104,15 +103,13 @@ if (place_meeting(x + xSpeed, y, objParentSolid) or place_meeting(x + xSpeed, y,
 	 or place_meeting(x + xSpeed, y, objParentDecoration))
 {
 	xSpeed = 0;	
-	image_speed = 0;
-	image_index = 0;
+	moving = false;
 }
 if (place_meeting(x, y + ySpeed, objParentSolid) or place_meeting(x, y + ySpeed, objParentInteractable)
 	or place_meeting(x, y + ySpeed, objParentDecoration))
 {
 	ySpeed = 0;	
-	image_speed = 0;
-	image_index = 0;
+	moving = false;
 }
 x += xSpeed;
 y += ySpeed;

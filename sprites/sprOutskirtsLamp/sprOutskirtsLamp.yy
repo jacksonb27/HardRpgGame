@@ -27,7 +27,7 @@
   "origin":9,
   "parent":{
     "name":"Interactables",
-    "path":"folders/Sprites/Areas/CastleOutskirts/Interactables.yy",
+    "path":"folders/Sprites/Areas/WellspringTown/Interactables.yy",
   },
   "preMultiplyAlpha":false,
   "resourceType":"GMSprite",

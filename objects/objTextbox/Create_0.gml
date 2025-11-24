@@ -1,9 +1,9 @@
 // ======================== Textbox Parameters ======================== //
-textboxWidth = 280;
-textboxHeight = 96;
+textboxWidth = 192;
+textboxHeight = 78;
 
-border = 16;
-lineSep = 16;
+border = 8;
+lineSep = 15;
 lineWidth = textboxWidth - border * 2 - 3;
 textBoxSprite[0] = sprDialogueBox;
 textBoxImage = 0;

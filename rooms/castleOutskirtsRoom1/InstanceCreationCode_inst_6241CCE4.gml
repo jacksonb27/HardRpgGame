@@ -1,4 +1,4 @@
 // Targets
-targetX = 64;
-targetY = 395;
-targetRoom = castleOutskirtsRoom2;
+targetX = 32;
+targetY = 365;
+targetRoom = wellspringTownRoom;

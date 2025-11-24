@@ -9,8 +9,8 @@
   "name":"objTunnelBlocker",
   "overriddenProperties":[],
   "parent":{
-    "name":"CastleOutskirts",
-    "path":"folders/Objects/Areas/CastleOutskirts.yy",
+    "name":"WellspringTown",
+    "path":"folders/Objects/Areas/WellspringTown.yy",
   },
   "parentObjectId":{
     "name":"objParentSolid",

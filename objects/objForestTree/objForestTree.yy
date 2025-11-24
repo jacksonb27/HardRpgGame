@@ -7,7 +7,7 @@
   "overriddenProperties":[],
   "parent":{
     "name":"Decor",
-    "path":"folders/Objects/Areas/CastleOutskirts/Decor.yy",
+    "path":"folders/Objects/Areas/WellspringTown/Decor.yy",
   },
   "parentObjectId":{
     "name":"objParentDecoration",
@@ -31,8 +31,8 @@
   "resourceVersion":"2.0",
   "solid":false,
   "spriteId":{
-    "name":"sprForestTree",
-    "path":"sprites/sprForestTree/sprForestTree.yy",
+    "name":"sprDarkerForestTree",
+    "path":"sprites/sprDarkerForestTree/sprDarkerForestTree.yy",
   },
   "spriteMaskId":null,
   "visible":true,

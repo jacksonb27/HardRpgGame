@@ -34,7 +34,7 @@ switch (global.characterSelection)
 // Player Variables
 
 canMove = true;
-walkSp = 2;
+walkSp = 1;
 xSpeed = 0;
 ySpeed = 0;
 moving = false;

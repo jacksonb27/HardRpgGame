@@ -109,6 +109,86 @@ switch(textID)
 				scrOption("James, the Ranger", "James");
 				break;
 			
+		#endregion Prologue
+		
+		// =========================== WELLSPRING (Town) =========================== //
+		#region Wellspring (Town)
+		
+			//Interactables
+			case "Wellspring - Well":
+				scrText("(You take a sip of the water from the bucket.)");
+				scrText("(...)");
+				scrText("(Super refreshing.)");
+				scrText("(HP fully restored.)");
+				break;
+		
+		
+		
+			/// NPCs ///
+			case "WellspringNPC - WilksGreet":
+				objWilksNPC.talkedTo = true;
+				scrText("Welcome to Wellspring!");
+				scrText("You look new around here, the name's Wilks!");
+				scrText("If you need any help with directions, don't be afraid to ask!");
+				break;
+				
+			case "WellspringNPC - WilksDirections":
+				scrText("Ahh, need directions and info ehh? Alright, pay attention now.");
+				scrText("This here is Wellspring, the hidden village in the forest!");
+				scrText("Now, we may be a small town but we got everything a traveller like you might need.");
+				scrText("To my east, we have the village armory. Joeri is a nice fella and he can get you suited up.");
+				scrText("To the northeast we have the hospital and the town hall.");
+				scrText("The doctors at the hospital can get you fixed right up in no time... I can tell you from experince!");
+				scrText("You can find our mayor, Suzin, at the town hall.");
+				scrText("Have any important questions? I'm going to go ahead and defer them to her.");
+				scrText("The town hall also contains a small library, so feel free to read up on our history if you'd like!");
+				scrText("Lastly, to my north, is the town well.");
+				scrText("The water that comes from there is like nothing else we've ever had.");
+				scrText("Perfectly clear and pure... always hits the spot after a day's work.");
+				scrText("Anyways, that's about it for Wellspring. I'll be here if you need a refresher!");
+				scrText("Enjoy your time here.");
+				break;
+				
+			case "WellspringNPC - Dog":
+				scrText("Ruff ruff!");
+				break;
+				
+			case "WellspringNPC - Thomas":
+				scrText("Ahhh, I don't think I'm ever going to move back...");
+				scrText("It's far too peaceful here compared to the bustling streets of Madris.");
+				scrText("I love to just sit out by the creek and listen to it drift by.");
+				break;
+				
+			case "WellspringNPC - Sylvia":
+				scrText("Hey!");
+				scrText("You have't seen a dog around here have you? JJ got out and hasn't come back.");
+				scrText("He always comes back soaking wet... it's always such a mess to clean up.");
+				scrText("Please let me know if you see him!");
+				break;
+				
+			case "WellspringNPC - Joeri":
+				scrText("Welcome in my friend!");
+				scrText("If you need any combat wares.. this is your place!");
+				scrText("What can I do for you?");
+				break;
+				
+			case "WellspringNPC - Doctor":
+				scrText("Always glad to see someone taking an interest in their health!");
+				scrText("Need a checkup?");
+				
+				scrOption("Heal", "Heal");
+				scrOption("Fix Status", "Fix Status");
+				break;
+				
+			case "Heal":
+				scrText("Alright! Let's get you all healed up!");
+				break;
+				
+			case "Fix Status":
+				scrText("Okay, let's figure out what's going on!");
+				break;
+		
+		#endregion Wellspring (Town)
 		
 
 	}	

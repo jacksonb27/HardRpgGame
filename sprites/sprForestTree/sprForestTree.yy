@@ -26,7 +26,7 @@
   "origin":4,
   "parent":{
     "name":"Decor",
-    "path":"folders/Sprites/Areas/CastleOutskirts/Decor.yy",
+    "path":"folders/Sprites/Areas/WellspringTown/Decor.yy",
   },
   "preMultiplyAlpha":false,
   "resourceType":"GMSprite",

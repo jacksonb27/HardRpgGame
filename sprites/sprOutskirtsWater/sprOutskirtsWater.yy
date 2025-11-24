@@ -26,8 +26,8 @@
   "nineSlice":null,
   "origin":0,
   "parent":{
-    "name":"CastleOutskirts",
-    "path":"folders/Sprites/Areas/CastleOutskirts.yy",
+    "name":"WellspringTown",
+    "path":"folders/Sprites/Areas/WellspringTown.yy",
   },
   "preMultiplyAlpha":false,
   "resourceType":"GMSprite",

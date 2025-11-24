@@ -9,7 +9,7 @@
   "overriddenProperties":[],
   "parent":{
     "name":"Decor",
-    "path":"folders/Objects/Areas/CastleOutskirts/Decor.yy",
+    "path":"folders/Objects/Areas/WellspringTown/Decor.yy",
   },
   "parentObjectId":null,
   "persistent":false,

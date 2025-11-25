@@ -1,0 +1,28 @@
+// Script assets have changed for v2.3.0 see
+// https://help.yoyogames.com/hc/en-us/articles/360005277377 for more information
+function scrInitBattle()
+{
+	/// === ENUMS ===
+	enum BattleState {
+	    PLAYER_CHOOSE,
+	    PLAYER_SKILL_MENU,
+	    PLAYER_ITEM_MENU,
+	    PLAYER_ACTION,
+	    ENEMY_ACTION,
+	    MESSAGE,
+	    CHECK_END,
+	    WIN,
+	    LOSE
+	}
+
+	enum EnemyID {
+	    SLIME,
+	    GOBLIN
+	}
+
+	enum SkillID {
+	    ATTACK,
+	    FIRE
+	}
+
+}

@@ -8,7 +8,9 @@ if (distance_to_object(objPlayer) < 128)
 // Battle
 if (place_meeting(x, y, objPlayer))
 {
-	//room_goto(battleRoom);
+	global.battle_enemy_id = EnemyID.SLIME; // or EnemyID.GOBLIN
+	room_goto(generalBattleRoom);
+
 	instance_destroy();
-	NewEncounter([global.enemies.Sqacorn], sprBattleBGForest);
+	//NewEncounter([global.enemies.Sqacorn], sprBattleBGForest);
 }

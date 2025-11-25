@@ -1,6 +1,6 @@
 // ======================== Button Press Vars ======================== //
-var optionChange = (keyboard_check(ord("S")) or gamepad_axis_value(0, gp_axislv) > 0.5 or gamepad_button_check(0, gp_padd))
-                 - (keyboard_check(ord("W")) or gamepad_axis_value(0, gp_axislv) < -0.5 or gamepad_button_check(0, gp_padu));
+var optionChange = (keyboard_check_pressed(ord("S")) or gamepad_axis_value(0, gp_axislv) > 0.5 or gamepad_button_check(0, gp_padd))
+                 - (keyboard_check_pressed(ord("W")) or gamepad_axis_value(0, gp_axislv) < -0.5 or gamepad_button_check(0, gp_padu));
 if (canAccept)
 {
 	acceptKey = keyboard_check_pressed(ord("E")) or gamepad_button_check_pressed(0, gp_face1);	
@@ -186,7 +186,7 @@ if (drawChar == textLength[page] && page == pageNumber - 1)
 		}
 		
 		//option text
-		draw_text(textBX + 32 + opBorder, textBY - (opSpace * optionNumber) + (opSpace * op) + 8, option[op]);
+		draw_text(textBX + 32 + opBorder, textBY - (opSpace * optionNumber) + (opSpace * op) + 2, option[op]);
 	}
 }
 

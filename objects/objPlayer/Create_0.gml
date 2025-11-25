@@ -21,9 +21,9 @@ switch (global.characterSelection)
 	break;
 	
 	case 2: //Esther
-		global.playerUp = noone;
-		global.playerDown = noone;
-		global.playerSide = noone;
+		global.playerUp = sprEstherUp;
+		global.playerDown = sprEstherDown;
+		global.playerSide = sprEstherSide;
 		global.playerIdle = noone;
 		global.playerAttack = noone;
 		global.playerDefend = noone;

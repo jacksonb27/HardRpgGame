@@ -76,40 +76,6 @@ global.actionLibrary =
 			//BattleChangeMP(user, -mpCost);
 		}		
 	},
-	spare :
-	{
-		name : "Spare",
-		description : "{0} spares!",
-		subMenu : -1,
-		targetRequired : true,
-		targetEnemyByDefault : true,
-		targetAll : MODE.NEVER,
-		userAnimation : "cast",
-		effectSprite : sprBasicAttack,
-		effectOnTarget : MODE.ALWAYS,
-		func : function(target)
-		{
-			Spare(target[0]);
-		}		
-	},
-	act :
-	{
-		name : "Act",
-		description : "{0} acts!",
-		subMenu : -1,
-		targetRequired : true,
-		targetEnemyByDefault : true,
-		targetAll : MODE.NEVER,
-		userAnimation : "cast",
-		effectSprite : sprOptionStar,
-		effectOnTarget : MODE.ALWAYS,
-		func : function(user, targets)
-		{
-			// Assume single-target like attack does
-			Act(self, targets[0]); // this works if targets[0] is the enemy struct, not instance
-		}
-	}
-
 }
 
 enum MODE
@@ -124,7 +90,7 @@ global.party =
 [
 
 	{
-		name: "StarBoy",
+		name: "Player",
 		level: 1,
 		xp: 0, // max is 99 before resetting
 		xpMax: 99,

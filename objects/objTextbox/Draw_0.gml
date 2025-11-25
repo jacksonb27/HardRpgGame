@@ -1,6 +1,6 @@
 // ======================== Button Press Vars ======================== //
-var optionChange = (keyboard_check(ord("S")) or gamepad_axis_value(0, gp_axislv) > 0.5 or gamepad_button_check(0, gp_padd))
-                 - (keyboard_check(ord("W")) or gamepad_axis_value(0, gp_axislv) < -0.5 or gamepad_button_check(0, gp_padu));
+var optionChange = (keyboard_check_pressed(ord("S")) or gamepad_axis_value(0, gp_axislv) > 0.5 or gamepad_button_check(0, gp_padd))
+                 - (keyboard_check_pressed(ord("W")) or gamepad_axis_value(0, gp_axislv) < -0.5 or gamepad_button_check(0, gp_padu));
 if (canAccept)
 {
 	acceptKey = keyboard_check_pressed(ord("E")) or gamepad_button_check_pressed(0, gp_face1);	
@@ -170,14 +170,14 @@ if (drawChar == textLength[page] && page == pageNumber - 1)
 	optionPosition += optionChange;
 	optionPosition = clamp(optionPosition, 0, optionNumber - 1);
 
-	var opSpace = 40;
+	var opSpace = 32;
 	var opBorder = 16;
 
 	for (var op = 0; op < optionNumber; op++)
 	{
 		//option box
 		var opWidth = string_width(option[op]) + opBorder * 2;
-		draw_sprite_ext(textBoxSprite[page], textBoxImage, textBX + 32, textBY - (opSpace * optionNumber) + (opSpace * op), opWidth / textBoxSpriteW, (opSpace - 2) / textBoxSpriteH, 0, c_white, 1);
+		draw_sprite_ext(textBoxSprite[page], textBoxImage, textBX, textBY - (opSpace * optionNumber) + (opSpace * op), opWidth / textBoxSpriteW, (opSpace - 2) / textBoxSpriteH, 0, c_white, 1);
 
 		// option star
 		if (optionPosition == op)
@@ -186,7 +186,7 @@ if (drawChar == textLength[page] && page == pageNumber - 1)
 		}
 		
 		//option text
-		draw_text(textBX + 32 + opBorder, textBY - (opSpace * optionNumber) + (opSpace * op) + 12, option[op]);
+		draw_text(textBX + opBorder, textBY - (opSpace * optionNumber) + (opSpace * op) + 6, option[op]);
 	}
 }
 

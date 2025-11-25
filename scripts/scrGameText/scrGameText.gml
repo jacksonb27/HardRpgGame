@@ -85,8 +85,12 @@ switch(textID)
 				
 			case "Confirm - Esther":
 				scrText("A wise selection...");
-				scrText("Who will this hero be?...");
+				scrText("Treat Esther well on your journey. She will not get a second chance.");
+				scrText("Free the world from chaos... restore order to the universe...");
+				scrText("Slay the beasts that inhabit this land... make allies along the way...");
+				scrText("Goodbye... for now...");
 				global.characterSelection = 2;
+				instance_create_layer(x, y, "Instances", objPrologueGameStart);
 				break;
 				
 			case "Confirm - James":
@@ -178,6 +182,7 @@ switch(textID)
 				
 				scrOption("Heal", "Heal");
 				scrOption("Fix Status", "Fix Status");
+				scrOption("Cancel", "Cancel - Doctor");
 				break;
 				
 			case "Heal":
@@ -186,6 +191,10 @@ switch(textID)
 				
 			case "Fix Status":
 				scrText("Okay, let's figure out what's going on!");
+				break;
+				
+			case "Cancel - Doctor":
+				scrText("Sounds good I'll be here in case of emergency!");
 				break;
 		
 		#endregion Wellspring (Town)

@@ -36,6 +36,13 @@ function BattleChangeHP (target, amount, AliveDeadOrEither = 0)
 	//target.sprite_index = target.sprites.attack;
 }
 
+function battleCalculateDmg(_att_atk, _power, _tgt_def) {
+    var dmg = (_att_atk + _power) - _tgt_def;
+    if (dmg < 1) dmg = 1;
+    return dmg;
+}
+
+
 // Defend
 function BattleDefend (defendSelf)
 {
@@ -43,66 +50,4 @@ function BattleDefend (defendSelf)
 	defendSelf.sprite_index = defendSelf.sprites.defend;
 }
 
-// Act
-function Act(target)
-{
-	if (!is_struct(target)) {
-		show_debug_message("Act failed: target is not a struct");
-		return;
-	}
-
-	// Initialize fields if they don't exist
-	if (!variable_struct_exists(target, "actCount")) {
-		target.actCount = 0;
-	}
-	if (!variable_struct_exists(target, "actNeeded")) {
-		target.actNeeded = 2;
-	}
-	if (!variable_struct_exists(target, "canSpare")) {
-		target.canSpare = false;
-	}
-
-	// Increment actCount
-	target.actCount += 1;
-
-	// Check if spare condition is met
-	if (target.actCount >= target.actNeeded) {
-		target.canSpare = true;
-	}
-
-	// DEBUG OUTPUT
-	show_debug_message("=== ACT DEBUG ===");
-	show_debug_message("Name: " + string(target.name));
-	show_debug_message("actCount: " + string(target.actCount));
-	show_debug_message("actNeeded: " + string(target.actNeeded));
-	show_debug_message("canSpare: " + string(target.canSpare));
-}
-
-
-
-
-// Spare
-function Spare(target)
-{
-	if (!is_struct(target)) {
-		show_debug_message("Spare failed: target is not a struct");
-		return;
-	}
-
-	// Set default if missing
-	if (!variable_struct_exists(target, "canSpare")) {
-		target.canSpare = false;
-	}
-
-	show_debug_message("=== SPARE DEBUG ===");
-	show_debug_message("Name: " + string(target.name));
-	show_debug_message("canSpare: " + string(target.canSpare));
-
-	if (target.canSpare) {
-		show_debug_message("Spare success! Ending battle...");
-		objBattle.EndBattle();
-	} else {
-		show_debug_message("nah");
-	}
-}
 

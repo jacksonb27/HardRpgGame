@@ -1,43 +1,41 @@
-/// obj_battle_controller - Create
+if (!global.rpg_initialized) {
+    show_message("ERROR: RPG system was not initialized before battle!");
+    game_end();
+}
 
-// --- Player battle stats (you can pull from obj_player later) ---
-player_hp_max  = 100;
-player_hp      = player_hp_max;
-player_mp_max  = 20;
-player_mp      = player_mp_max;
-player_atk     = 10;
-player_def     = 5;
-player_speed   = 7;
 
-// Example: starting with one skill and Fire
-player_skills = [ SkillID.ATTACK, SkillID.FIRE ];
+// ==== PARTY SETUP (1–4 members) ====
 
-// Simple battle-only item: Potions
-battle_potions = 3;  // how many potions you can use in this battle
+party = global.party;
 
-// --- Enemy setup ---
-e = global.enemy_db[ global.battle_enemy_id ];
-enemy_name    = e.name;
-enemy_hp_max  = e.hp_max;
-enemy_hp      = e.hp_max;
-enemy_atk     = e.atk;
-enemy_def     = e.def;
-enemy_speed   = e.speed;
-enemy_sprite  = e.sprite;
+// You can add up to 2 more characters the same way if you want.
+// Just keep the array length <= 4.
 
-// --- Battle state ---
-state      = BattleState.PLAYER_CHOOSE;
-state_next = BattleState.PLAYER_CHOOSE;
+// ==== ENEMY SETUP (one enemy for now) ====
 
-// --- Menus ---
-menu_main       = [ "Fight", "Skill", "Item", "Run" ];
-menu_main_index = 0;
+enemy = {
+    name: global.enemy_slime.name,
+    hp_max: global.enemy_slime.hp_max,
+    hp: global.enemy_slime.hp_max,
+    atk: global.enemy_slime.atk,
+    def: global.enemy_slime.def,
+    sprite: global.enemy_slime.sprite
+};
 
-menu_skill_index = 0;
-menu_item_index  = 0; // only one item type for now (Potion)
+// ==== TURN / UI STATE ====
 
-// --- Message box ---
+battle_state = BattleState.PARTY_COMMAND;
+
+active_party_index = 0;   // whose box is active
+command_index      = 0;   // Attack / Defend / Item / Flee
+attack_index       = 0;   // which offense skill
+defend_index       = 0;   // which defense skill
+
+commands = ["Attack", "Defend", "Item", "Flee"];
+
 current_message = "";
+state_next      = BattleState.PARTY_COMMAND;
+message_shown = false;
 
-// Random seed (optional)
-randomize();
+// For a very simple "defend" buff:
+party_guarding = array_create(array_length(party), false);

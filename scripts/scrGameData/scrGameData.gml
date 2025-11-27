@@ -1,5 +1,33 @@
 InitializeElements();
 
+
+function makeWillowMember()
+{
+	return {
+	    name: "Willow",
+		level: 5,
+		xp: 0, // max is 99 before resetting
+		xpMax: 99,
+	    hp: 50,
+	    hpMax: 50,
+	    mp: 0,
+	    mpMax: 0,
+	    strength: 3,
+		defense: 2,
+		defenseMemory: 2,
+	    sprites: {
+	        idle: sprWillowBattleIdle,
+	        attack: sprWillowBattleAttack,
+	        defend: sprWillowBattleDefend,
+	        down: sprWillowBattleDown,
+			win: sprWillowBattleWin
+	    },
+	    actions: [global.actionLibrary.attack, global.actionLibrary.defend]
+	};
+};
+
+/*
+
 // Action Library
 global.actionLibrary = 
 {
@@ -106,34 +134,6 @@ global.party =
 	}
 	
 ];
-
-function makeWillowMember()
-{
-	return {
-	    name: "Willow",
-		level: 5,
-		xp: 0, // max is 99 before resetting
-		xpMax: 99,
-	    hp: 50,
-	    hpMax: 50,
-	    mp: 0,
-	    mpMax: 0,
-	    strength: 3,
-		defense: 2,
-		defenseMemory: 2,
-	    sprites: {
-	        idle: sprWillowBattleIdle,
-	        attack: sprWillowBattleAttack,
-	        defend: sprWillowBattleDefend,
-	        down: sprWillowBattleDown,
-			win: sprWillowBattleWin
-	    },
-	    actions: [global.actionLibrary.attack, global.actionLibrary.defend]
-	};
-};
-
-
-
 
 // Enemy Data
 global.enemies = 

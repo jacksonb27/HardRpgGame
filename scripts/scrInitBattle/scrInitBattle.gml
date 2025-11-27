@@ -3,7 +3,7 @@
 function scrInitBattle()
 {
 	/// === ENUMS ===
-	enum BattleState {
+	enum BattleStateS {
 	    PLAYER_CHOOSE,
 	    PLAYER_SKILL_MENU,
 	    PLAYER_ITEM_MENU,
@@ -20,7 +20,7 @@ function scrInitBattle()
 	    GOBLIN
 	}
 
-	enum SkillID {
+	enum SkillIDD {
 	    ATTACK,
 	    FIRE
 	}

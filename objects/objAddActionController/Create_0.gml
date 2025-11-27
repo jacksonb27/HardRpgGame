@@ -1,3 +1,0 @@
-// vars
-
-global.pendingAddAction = false;

@@ -1,3 +1,6 @@
+// Make party tracker
+instance_create_depth(0, 0, depth, objPartyManager);
+
 // Sprite Selection
 switch (global.characterSelection)
 {
@@ -12,6 +15,7 @@ switch (global.characterSelection)
 	break;
 	
 	case 1: //Luis
+		//sprite_index = sprLuisDown;
 		global.playerUp = noone;
 		global.playerDown = noone;
 		global.playerSide = noone;
@@ -21,6 +25,7 @@ switch (global.characterSelection)
 	break;
 	
 	case 2: //Esther
+		sprite_index = sprEstherDown;
 		global.playerUp = sprEstherUp;
 		global.playerDown = sprEstherDown;
 		global.playerSide = sprEstherSide;

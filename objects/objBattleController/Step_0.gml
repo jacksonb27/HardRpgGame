@@ -1,208 +1,344 @@
-/// obj_battle_controller - Step
+/// objBattleController - Step
 
-// Shortcuts for confirm/cancel
 var confirm = keyboard_check_pressed(vk_enter) || keyboard_check_pressed(ord("Z"));
 var cancel  = keyboard_check_pressed(vk_escape) || keyboard_check_pressed(ord("X"));
 
-switch (state) {
+// ---------------------------------------------------------
+// Helper: decide who goes next after a PARTY ACTION
+// ---------------------------------------------------------
+/// Sets state_next and active_party_index appropriately
+function _advance_after_party_action()
+{
+    var party_count = array_length(party);
+    var found_next  = -1;
 
-    // ===========================
-    //  MAIN MENU: FIGHT/SKILL/ITEM/RUN
-    // ===========================
-    case BattleState.PLAYER_CHOOSE:
-        // Move cursor
-        if (keyboard_check_pressed(vk_up)) {
-            menu_main_index--;
-            if (menu_main_index < 0) menu_main_index = array_length(menu_main) - 1;
+    // Look for next living member after current
+    for (var step = 1; step <= party_count; step++)
+    {
+        var idx = (active_party_index + step) mod party_count;
+        if (party[idx].hp > 0)
+        {
+            found_next = idx;
+            break;
         }
-        if (keyboard_check_pressed(vk_down)) {
-            menu_main_index++;
-            if (menu_main_index >= array_length(menu_main)) menu_main_index = 0;
+    }
+
+    if (found_next == -1) {
+        // nobody else alive (will be caught by lose logic later)
+        state_next = BattleState.ENEMY_TURN;
+    }
+    else if (found_next > active_party_index) {
+        // still later in list this round → next party member acts
+        active_party_index = found_next;
+        state_next = BattleState.PARTY_COMMAND;
+    }
+    else {
+        // wrapped back to an earlier index → whole party has acted
+        active_party_index = found_next; // start next round from earliest living
+        state_next = BattleState.ENEMY_TURN;
+    }
+}
+
+
+switch (battle_state) {
+
+    // ============================================================
+    //  PARTY COMMAND (Attack / Defend / Item / Flee)
+    // ============================================================
+    case BattleState.PARTY_COMMAND:
+
+        // Move left/right between party members (manual selection)
+        if (keyboard_check_pressed(vk_left)) {
+            repeat (1) {
+                active_party_index--;
+                if (active_party_index < 0)
+                    active_party_index = array_length(party) - 1;
+                if (party[active_party_index].hp > 0) break;
+            }
         }
+
+        if (keyboard_check_pressed(vk_right)) {
+            repeat (1) {
+                active_party_index++;
+                if (active_party_index >= array_length(party))
+                    active_party_index = 0;
+                if (party[active_party_index].hp > 0) break;
+            }
+        }
+
+        // Command list up/down
+        if (keyboard_check_pressed(vk_up))
+            command_index = (command_index - 1 + array_length(commands)) mod array_length(commands);
+
+        if (keyboard_check_pressed(vk_down))
+            command_index = (command_index + 1) mod array_length(commands);
 
         if (confirm) {
-            var choice = menu_main[menu_main_index];
 
-            if (choice == "Fight") {
-                // Use basic ATTACK skill
-                state = BattleState.PLAYER_ACTION;
-                action_type  = "SKILL";
-                action_skill = SkillID.ATTACK;
-            }
-            else if (choice == "Skill") {
-                state = BattleState.PLAYER_SKILL_MENU;
-                menu_skill_index = 0;
-            }
-            else if (choice == "Item") {
-                state = BattleState.PLAYER_ITEM_MENU;
-                menu_item_index = 0;
-            }
-            else if (choice == "Run") {
-                // Simple run: 50% chance
-                if (irandom(1) == 0) {
-                    current_message = "You fled successfully!";
-                    state_next = BattleState.WIN; // treat as escape => end battle
-                    state = BattleState.MESSAGE;
-                } else {
-                    current_message = "Couldn't escape!";
-                    state_next = BattleState.ENEMY_ACTION;
-                    state = BattleState.MESSAGE;
-                }
+            var base_actor = party[active_party_index];
+            var actor  = calc_final_stats(base_actor);
+
+            var weapon = global.weapon_db[ base_actor.weapon ];
+            var armor  = global.armor_db[ base_actor.armor ];
+
+            var cmd = commands[ command_index ];
+
+            switch (cmd) {
+
+                case "Attack":
+                    var off_skills = weapon.skills;
+
+                    if (array_length(off_skills) <= 0) {
+                        current_message = actor.name + " has no offensive skills!";
+                        state_next = BattleState.PARTY_COMMAND;
+                        battle_state = BattleState.MESSAGE;
+                    } else {
+                        attack_index = 0;
+                        battle_state = BattleState.PARTY_ATTACK_MENU;
+                    }
+                break;
+
+                case "Defend":
+                    var def_skills = armor.skills;
+
+                    if (array_length(def_skills) <= 0) {
+                        // basic defend
+                        party_guarding[active_party_index] = true;
+                        current_message = actor.name + " braces!";
+                        // advance to next party member / enemy
+                        _advance_after_party_action();
+                        battle_state = BattleState.MESSAGE;
+                    } else {
+                        defend_index = 0;
+                        battle_state = BattleState.PARTY_DEFEND_MENU;
+                    }
+                break;
+
+                case "Item":
+                    current_message = "Item menu not implemented!";
+                    state_next = BattleState.PARTY_COMMAND;
+                    battle_state = BattleState.MESSAGE;
+                break;
+
+                case "Flee":
+                    if (irandom(1) == 0) {
+                        current_message = "You fled successfully!";
+                        state_next = BattleState.WIN;
+                    } else {
+                        current_message = "Couldn't get away!";
+                        state_next = BattleState.ENEMY_TURN;
+                    }
+                    battle_state = BattleState.MESSAGE;
+                break;
             }
         }
+
     break;
 
-    // ===========================
-    //  SKILL MENU
-    // ===========================
-    case BattleState.PLAYER_SKILL_MENU:
-        if (keyboard_check_pressed(vk_up)) {
-            menu_skill_index--;
-            if (menu_skill_index < 0) menu_skill_index = array_length(player_skills) - 1;
-        }
-        if (keyboard_check_pressed(vk_down)) {
-            menu_skill_index++;
-            if (menu_skill_index >= array_length(player_skills)) menu_skill_index = 0;
-        }
+
+    // ============================================================
+    //  ATTACK SUBMENU
+    // ============================================================
+    case BattleState.PARTY_ATTACK_MENU:
+
+        var base_actor = party[active_party_index];
+        var actor      = calc_final_stats(base_actor);
+        var weapon     = global.weapon_db[ base_actor.weapon ];
+        var off_skills = weapon.skills;
+
+        if (keyboard_check_pressed(vk_up))
+            attack_index = (attack_index - 1 + array_length(off_skills)) mod array_length(off_skills);
+
+        if (keyboard_check_pressed(vk_down))
+            attack_index = (attack_index + 1) mod array_length(off_skills);
 
         if (cancel) {
-            state = BattleState.PLAYER_CHOOSE;
+            battle_state = BattleState.PARTY_COMMAND;
         }
 
         if (confirm) {
-            var skill_id = player_skills[menu_skill_index];
-            var sk = global.skill_db[skill_id];
 
-            // Check MP
-            if (player_mp < sk.mp_cost) {
+            var skill = global.skill_db[ off_skills[attack_index] ];
+
+            if (actor.mp < skill.mp_cost) {
                 current_message = "Not enough MP!";
-                state_next = BattleState.PLAYER_SKILL_MENU;
-                state = BattleState.MESSAGE;
+                state_next = BattleState.PARTY_ATTACK_MENU;
+                battle_state = BattleState.MESSAGE;
             } else {
-                action_type  = "SKILL";
-                action_skill = skill_id;
-                state = BattleState.PLAYER_ACTION;
+
+                // Spend MP on REAL data
+                party[active_party_index].mp -= skill.mp_cost;
+
+                // Damage
+                var dmg = scr_calc_damage(actor.atk, skill.sPower, enemy.def);
+                enemy.hp = max(0, enemy.hp - dmg);
+
+                current_message =
+                    actor.name + " used " + skill.name + "!\n" +
+                    "It dealt " + string(dmg) + " damage!";
+
+                if (enemy.hp <= 0) {
+                    state_next = BattleState.WIN;
+                } else {
+                    // go to next party member or enemy
+                    _advance_after_party_action();
+                }
+
+                battle_state = BattleState.MESSAGE;
             }
         }
+
     break;
 
-    // ===========================
-    //  ITEM MENU (just Potions for now)
-    // ===========================
-    case BattleState.PLAYER_ITEM_MENU:
-        // Only one item type => no cursor movement yet
-        if (cancel) {
-            state = BattleState.PLAYER_CHOOSE;
-        }
+
+
+    // ============================================================
+    //  DEFEND SUBMENU
+    // ============================================================
+    case BattleState.PARTY_DEFEND_MENU:
+
+        var base_actor = party[active_party_index];
+        var actor      = calc_final_stats(base_actor);
+        var armor      = global.armor_db[ base_actor.armor ];
+        var def_skills = armor.skills;
+
+        if (keyboard_check_pressed(vk_up))
+            defend_index = (defend_index - 1 + array_length(def_skills)) mod array_length(def_skills);
+
+        if (keyboard_check_pressed(vk_down))
+            defend_index = (defend_index + 1) mod array_length(def_skills);
+
+        if (cancel)
+            battle_state = BattleState.PARTY_COMMAND;
 
         if (confirm) {
-            if (battle_potions > 0) {
-                // Use potion: heal player
-                var heal = 50;
-                player_hp = clamp(player_hp + heal, 0, player_hp_max);
-                battle_potions -= 1;
 
-                current_message = "You used a Potion! Recovered " + string(heal) + " HP.";
-                state_next = BattleState.ENEMY_ACTION;
-                state = BattleState.MESSAGE;
+            var skill = global.skill_db[ def_skills[defend_index] ];
+
+            if (actor.mp < skill.mp_cost) {
+                current_message = "Not enough MP!";
+                state_next = BattleState.PARTY_DEFEND_MENU;
             } else {
-                current_message = "No Potions left!";
-                state_next = BattleState.PLAYER_ITEM_MENU;
-                state = BattleState.MESSAGE;
+
+                party[active_party_index].mp -= skill.mp_cost;
+                party_guarding[active_party_index] = true;
+
+                current_message = actor.name + " casts " + skill.name + "!";
+                // advance to next party member / enemy
+                _advance_after_party_action();
             }
+
+            battle_state = BattleState.MESSAGE;
         }
+
     break;
 
-    // ===========================
-    //  PLAYER ACTION (attack / skill)
-    // ===========================
-    case BattleState.PLAYER_ACTION:
-        if (action_type == "SKILL") {
-            var sk = global.skill_db[action_skill];
 
-            // Spend MP
-            player_mp -= sk.mp_cost;
-            if (player_mp < 0) player_mp = 0;
+    // ============================================================
+    //  ENEMY TURN
+    // ============================================================
+    case BattleState.ENEMY_TURN:
 
-            var Spower = sk.Spower;
-            var dmg = battleCalculateDmg(player_atk, Spower, enemy_def);
-
-            enemy_hp -= dmg;
-            if (enemy_hp < 0) enemy_hp = 0;
-
-            current_message = "You used " + sk.name + "! Dealt " + string(dmg) + " damage.";
-            state_next = BattleState.CHECK_END;
-            state = BattleState.MESSAGE;
+        // Safety: shouldn't really happen if enemy is dead,
+        // but if it does, just treat as win.
+        if (enemy.hp <= 0) {
+            current_message = enemy.name + " has been defeated!";
+            state_next = BattleState.WIN;
+            battle_state = BattleState.MESSAGE;
+            break;
         }
-    break;
 
-    // ===========================
-    //  ENEMY ACTION
-    // ===========================
-    case BattleState.ENEMY_ACTION:
-        if (enemy_hp > 0) {
-            // Simple AI: always basic attack
-            var Spower = 8; // enemy move power
-            var dmg = battleCalculateDmg(enemy_atk, Spower, player_def);
+        // Build list of living party members
+        var living = [];
+        for (var i = 0; i < array_length(party); i++)
+            if (party[i].hp > 0) array_push(living, i);
 
-            player_hp -= dmg;
-            if (player_hp < 0) player_hp = 0;
+        if (array_length(living) == 0) {
+            current_message = "The party has fallen...";
+            state_next = BattleState.LOSE;
+            battle_state = BattleState.MESSAGE;
+            break;
+        }
 
-            current_message = enemy_name + " attacks! You took " + string(dmg) + " damage.";
-            state_next = BattleState.CHECK_END;
-            state = BattleState.MESSAGE;
+        // Pick random target among living
+        var t = living[ irandom(array_length(living)-1) ];
+        var target_stats = calc_final_stats(party[t]);
+
+        var dmg = scr_calc_damage(enemy.atk, 8, target_stats.def);
+
+        if (party_guarding[t]) {
+            dmg = floor(dmg * 0.5);
+            party_guarding[t] = false;
+        }
+
+        party[t].hp = max(0, party[t].hp - dmg);
+
+        current_message = enemy.name + " attacks " + party[t].name +
+                          " for " + string(dmg) + "!";
+
+        // Check if all dead
+        var all_dead = true;
+        for (var j = 0; j < array_length(party); j++)
+            if (party[j].hp > 0) all_dead = false;
+
+        if (all_dead) {
+            state_next = BattleState.LOSE;
         } else {
-            state = BattleState.CHECK_END;
+            // set next active to first living member to start new round
+            var first_idx = -1;
+            for (var k = 0; k < array_length(party); k++) {
+                if (party[k].hp > 0) { first_idx = k; break; }
+            }
+            active_party_index = (first_idx == -1) ? 0 : first_idx;
+            state_next = BattleState.PARTY_COMMAND;
         }
+
+        battle_state = BattleState.MESSAGE;
+
     break;
 
-    // ===========================
-    //  CHECK WIN / LOSE
-    // ===========================
-   case BattleState.CHECK_END:
-	    if (enemy_hp <= 0) {
-	        current_message = "You won the battle!";
-	        state_next = BattleState.WIN;
-	        state = BattleState.MESSAGE;
-	    }
-	    else if (player_hp <= 0) {
-	        current_message = "You were defeated...";
-	        state_next = BattleState.LOSE;
-	        state = BattleState.MESSAGE;
-	    }
-	    else {
-	        // If we got here, the battle continues.
-	        // ALWAYS return to the player turn.
-	        state = BattleState.PLAYER_CHOOSE;
-	    }
-		break;
 
-
-    // ===========================
-    //  MESSAGE: wait for key
-    // ===========================
+    // ============================================================
+    // MESSAGE HANDLER
+    // ============================================================
     case BattleState.MESSAGE:
-        if (confirm) {
-            current_message = "";
-            state = state_next;
+
+        if (!message_shown) {
+            message_shown = true;
+            break;
         }
+
+        if (confirm) {
+
+            message_shown = false;
+
+            if (state_next == BattleState.WIN) {
+                current_message = enemy.name + " has been defeated!";
+                state_next = BattleState.WIN + 1;
+                break;
+            }
+
+            if (state_next == BattleState.WIN + 1) {
+                room_goto(global.last_room_before_battle);
+                break;
+            }
+
+            current_message = "";
+            battle_state = state_next;
+        }
+
     break;
 
-    // ===========================
-    //  WIN / LOSE
-    // ===========================
+
+    // ============================================================
+    // WIN → return to overworld
+    // ============================================================
     case BattleState.WIN:
-        // Give EXP, items, etc. Later.
-        // For now, return to overworld
-        if (confirm) {
-            // Example: room_goto(rm_overworld);
-        }
+        if (confirm) room_goto(global.last_room_before_battle);
     break;
+
 
     case BattleState.LOSE:
-        // Game Over logic
-        if (confirm) {
-            // Example: room_goto(rm_gameover);
-        }
+        // game over logic later
     break;
 }

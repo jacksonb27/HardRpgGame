@@ -196,6 +196,18 @@ switch(textID)
 			case "Cancel - Doctor":
 				scrText("Sounds good I'll be here in case of emergency!");
 				break;
+				
+			case "WellspringNPC - SuzinGreet":
+				objSuzinNPC.talkNum = 1;
+				scrText("Welcome to the town hall, I'm the mayor Suzin.");
+				scrText("Hopefully Wilks has given you a brief rundown on our little town.");
+				scrText("Can I help you with anything?");
+				break;
+				
+			case "WellspringNPC - SuzinQuestions":
+				scrText("Welcome back traveller!");
+				scrText("Can I help you with anything?");
+				break;
 		
 		#endregion Wellspring (Town)
 		

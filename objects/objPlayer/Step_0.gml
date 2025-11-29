@@ -8,6 +8,8 @@ var moveDown  = keyboard_check(ord("S")) or gamepad_axis_value(gp, gp_axislv) > 
 
 interact  = keyboard_check_pressed(ord("E")) or gamepad_button_check_pressed(gp, gp_face1);
 
+
+
 // Moving
 if (canMove == true and !instance_exists(objTextbox))
 {

@@ -3,6 +3,13 @@ if (!global.rpg_initialized) {
     game_end();
 }
 
+// Not Move in battle
+objPlayer.canMove = false;	
+objPlayer.xSpeed = 0;
+objPlayer.ySpeed = 0;
+objPlayer.image_index = 0;
+//instance_deactivate_object(objPlayer);
+
 
 // ==== PARTY SETUP (1–4 members) ====
 

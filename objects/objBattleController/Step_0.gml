@@ -319,6 +319,8 @@ switch (battle_state) {
             }
 
             if (state_next == BattleState.WIN + 1) {
+				instance_activate_object(objPlayer);
+				objPlayer.canMove = true;
                 room_goto(global.last_room_before_battle);
                 break;
             }
@@ -334,7 +336,11 @@ switch (battle_state) {
     // WIN → return to overworld
     // ============================================================
     case BattleState.WIN:
-        if (confirm) room_goto(global.last_room_before_battle);
+        if (confirm) 
+		{
+			objPlayer.canMove = true;
+			room_goto(global.last_room_before_battle);
+		}
     break;
 
 

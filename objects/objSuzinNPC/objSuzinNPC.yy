@@ -1,21 +1,22 @@
 {
   "$GMObject":"",
-  "%Name":"objBattleController",
+  "%Name":"objSuzinNPC",
   "eventList":[
     {"$GMEvent":"v1","%Name":"","collisionObjectId":null,"eventNum":0,"eventType":0,"isDnD":false,"name":"","resourceType":"GMEvent","resourceVersion":"2.0",},
-    {"$GMEvent":"v1","%Name":"","collisionObjectId":null,"eventNum":0,"eventType":3,"isDnD":false,"name":"","resourceType":"GMEvent","resourceVersion":"2.0",},
-    {"$GMEvent":"v1","%Name":"","collisionObjectId":null,"eventNum":64,"eventType":8,"isDnD":false,"name":"","resourceType":"GMEvent","resourceVersion":"2.0",},
     {"$GMEvent":"v1","%Name":"","collisionObjectId":null,"eventNum":0,"eventType":8,"isDnD":false,"name":"","resourceType":"GMEvent","resourceVersion":"2.0",},
-    {"$GMEvent":"v1","%Name":"","collisionObjectId":null,"eventNum":0,"eventType":1,"isDnD":false,"name":"","resourceType":"GMEvent","resourceVersion":"2.0",},
+    {"$GMEvent":"v1","%Name":"","collisionObjectId":null,"eventNum":0,"eventType":3,"isDnD":false,"name":"","resourceType":"GMEvent","resourceVersion":"2.0",},
   ],
   "managed":true,
-  "name":"objBattleController",
+  "name":"objSuzinNPC",
   "overriddenProperties":[],
   "parent":{
-    "name":"NewBattle",
-    "path":"folders/Objects/Battle/NewBattle.yy",
+    "name":"Wellspring",
+    "path":"folders/Objects/NPCs/Wellspring.yy",
   },
-  "parentObjectId":null,
+  "parentObjectId":{
+    "name":"objParentInteractable",
+    "path":"objects/objParentInteractable/objParentInteractable.yy",
+  },
   "persistent":false,
   "physicsAngularDamping":0.1,
   "physicsDensity":0.5,
@@ -33,7 +34,10 @@
   "resourceType":"GMObject",
   "resourceVersion":"2.0",
   "solid":false,
-  "spriteId":null,
+  "spriteId":{
+    "name":"sprSuzinNPC",
+    "path":"sprites/sprSuzinNPC/sprSuzinNPC.yy",
+  },
   "spriteMaskId":null,
   "visible":true,
 }

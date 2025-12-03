@@ -170,23 +170,23 @@ if (drawChar == textLength[page] && page == pageNumber - 1)
 	optionPosition += optionChange;
 	optionPosition = clamp(optionPosition, 0, optionNumber - 1);
 
-	var opSpace = 32;
-	var opBorder = 16;
+	var opSpace = 24;
+	var opBorder = 8;
 
 	for (var op = 0; op < optionNumber; op++)
 	{
 		//option box
 		var opWidth = string_width(option[op]) + opBorder * 2;
-		draw_sprite_ext(textBoxSprite[page], textBoxImage, textBX, textBY - (opSpace * optionNumber) + (opSpace * op), opWidth / textBoxSpriteW, (opSpace - 2) / textBoxSpriteH, 0, c_white, 1);
+		draw_sprite_ext(textBoxSprite[page], textBoxImage, textBX + 16, textBY - (opSpace * optionNumber) + (opSpace * op), opWidth / textBoxSpriteW, (opSpace) / textBoxSpriteH, 0, c_white, 1);
 
 		// option star
 		if (optionPosition == op)
 		{
-			draw_sprite(sprOptionStar, starOptionSpeed, textBX, textBY - (opSpace * optionNumber) + (opSpace * op) + 8);	
+			draw_sprite(sprOptionStar, starOptionSpeed, textBX - 16, textBY - (opSpace * optionNumber) + (opSpace * op));	
 		}
 		
 		//option text
-		draw_text(textBX + opBorder, textBY - (opSpace * optionNumber) + (opSpace * op) + 6, option[op]);
+		draw_text(textBX + opBorder + 16, textBY - (opSpace * optionNumber) + (opSpace * op) + 6, option[op]);
 	}
 }
 

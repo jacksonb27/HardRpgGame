@@ -118,6 +118,8 @@ switch(textID)
 		// =========================== WELLSPRING (Town) =========================== //
 		#region Wellspring (Town)
 		
+			
+			#region interactables
 			//Interactables
 			case "Wellspring - Well":
 				scrText("(You take a sip of the water from the bucket.)");
@@ -125,9 +127,79 @@ switch(textID)
 				scrText("(Super refreshing.)");
 				scrText("(HP fully restored.)");
 				break;
+				
+			case "Wellspring - Book1":
+				scrText("(A Brief History of Wellspring.)");
+				scrText("(Read?)");
+				
+				scrOption("No", "Wellspring - BookNo");
+				scrOption("Yes", "Wellspring - Book1Read");
+				break;
+				
+			case "Wellspring - Book2":
+				scrText("(Monsters and Ghouls of the Forest.)");
+				scrText("(Read?)");
+				
+				scrOption("No", "Wellspring - BookNo");
+				scrOption("Yes", "Wellspring - Book2Read");
+				break;
+				
+			case "Wellspring - Book3":
+				scrText("(The Wolf in the Wool Coat.)");
+				scrText("(Read?)");
+				
+				scrOption("No", "Wellspring - BookNo");
+				scrOption("Yes", "Wellspring - Book3Read");
+				break;
+				
+			case "Wellspring - Book4":
+				scrText("(A Time Before Time.)");
+				scrText("(...)");
+				scrText("(It's too old to read.");
+				scrText("(If you pick the book up, the pages will fall apart.");
+				break;
+				
+			case "Wellspring - BookNo":
+				scrText("(Maybe next time.)");
+				break;
+				
+			case "Wellspring - Book1Read":
+				scrText("(Maybe next time.)");
+				break;
+				
+			case "Wellspring - Book2Read":
+				scrText("'Monsters and Ghouls of the Forest. by Wilks P.'");
+				scrText("The forest can be so beautiful, but be careful. Don't wanna get caught by surprise!");
+				scrText("Creatures of the forest are generally harmless, but there are a few bad apples out there.");
+				scrText("One such example is the 'Moss Spawn' as we call it. It's not the most dangerous thing, but ");
+				scrText("you definitely don't wanna be alone and get your foot caught up in it! The recommended solution for");
+				scrText("for grassy-type enemies such as the Moss Spawn would be slashing attacks. Real effective!");
+				scrText("Another monster you may run into is the 'Gnome Kid'. These things are incredibly irritating.");
+				scrText("You gotta be on alert when travelling through the forest because these things will pop out and getcha!");
+				scrText("These little fellas are highly allergic to any form of magic, so do with that what you will.");
+				scrText("Thanks, for reading this first edition of 'Monsters and Ghouls of the Forest.'! Be sure to");
+				scrText("check back for the second edition coming soon!");
+				scrText("(The rest of the shelf is dusty.)");
+				break;
+				
+			case "Wellspring - Book3Read":
+				scrText("'The Wolf in the Wool Coat. by (scribbled out)'");
+				scrText("A clever wolf, tired of failed hunts, stitched a coat of wool to slip unnoticed into a nearby flock of sheep.");
+				scrText("He entered the meadow with a mild smile, soft enough to quiet suspicion.");
+				scrText("The sheep welcomed him happily, mistaking politeness for innocence.");
+				scrText("He played along, watching their routines and memorizing who strayed, who trusted quickest.");
+				scrText("At night he lay among them, hunger steady and patient.");
+				scrText("Their kindness only sharpened his purpose.");
+				scrText("When the moon turned cold and bright, he shed his disguise and carried out his plan.");
+				scrText("The night was one of bloodshed.");
+				scrText("By dawn, only the wolf remained... his coat heavier, and the meadow silent.");
+				break;
+					
+				
+			#endregion interactables
 		
 		
-		
+			#region npcs
 			/// NPCs ///
 			case "WellspringNPC - WilksGreet":
 				objWilksNPC.talkedTo = true;
@@ -202,12 +274,40 @@ switch(textID)
 				scrText("Welcome to the town hall, I'm the mayor Suzin.");
 				scrText("Hopefully Wilks has given you a brief rundown on our little town.");
 				scrText("Can I help you with anything?");
+				
+				scrOption("History?", "WellspringNPC - SuzinHistory");
+				scrOption("Forest?", "WellspringNPC - SuzinForest");
+				scrOption("You?", "WellspringNPC - SuzinYou");
+				scrOption("Nevermind.", "WellspringNPC - SuzinNvm");
 				break;
 				
 			case "WellspringNPC - SuzinQuestions":
 				scrText("Welcome back traveller!");
 				scrText("Can I help you with anything?");
+				
+				scrOption("History?", "WellspringNPC - SuzinHistory");
+				scrOption("Forest?", "WellspringNPC - SuzinForest");
+				scrOption("You?", "WellspringNPC - SuzinYou");
+				scrOption("Nevermind.", "WellspringNPC - SuzinNvm");
 				break;
+				
+			case "WellspringNPC - SuzinHistory":
+				scrText("Here's the history of our town!");
+				break;
+				
+			case "WellspringNPC - SuzinForest":
+				scrText("The forest? Oh yeah...");
+				break;
+				
+			case "WellspringNPC - SuzinYou":
+				scrText("I'll be glad to tell you all about myself!");
+				break;
+				
+			case "WellspringNPC - SuzinNvm":
+				scrText("Okay! I'll be here if you need me!");
+				break;
+			
+			#endregion npcs
 		
 		#endregion Wellspring (Town)
 		

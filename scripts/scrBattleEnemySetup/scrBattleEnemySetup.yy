@@ -1,0 +1,13 @@
+{
+  "$GMScript":"v1",
+  "%Name":"scrBattleEnemySetup",
+  "isCompatibility":false,
+  "isDnD":false,
+  "name":"scrBattleEnemySetup",
+  "parent":{
+    "name":"BattleStuff",
+    "path":"folders/Scripts/BattleStuff.yy",
+  },
+  "resourceType":"GMScript",
+  "resourceVersion":"2.0",
+}

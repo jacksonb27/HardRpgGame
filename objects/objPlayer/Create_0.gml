@@ -15,10 +15,10 @@ switch (global.characterSelection)
 	break;
 	
 	case 1: //Luis
-		//sprite_index = sprLuisDown;
-		global.playerUp = noone;
-		global.playerDown = noone;
-		global.playerSide = noone;
+		sprite_index = sprLuisDown;
+		global.playerUp = sprLuisUp;
+		global.playerDown = sprLuisDown;
+		global.playerSide = sprLuisSide;
 		global.playerIdle = noone;
 		global.playerAttack = noone;
 		global.playerDefend = noone;

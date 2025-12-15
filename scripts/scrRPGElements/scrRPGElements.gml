@@ -283,12 +283,12 @@ function char_build_thief() {
  #region ENEMY DATABASE
 // ####################################################################
 
-global.enemy_slime = {
-    name: "Slime",
-    hp_max: 80,
-    atk: 10,
-    def: 4,
-    sprite: sprMushBoomEnemy
+global.enemy_mossSpawn = {
+    name: "Moss Spawn",
+    hp_max: 20,
+    atk: 5,
+    def: 5,
+    sprite: sprMossSpawnBattle
 };
 
  #endregion

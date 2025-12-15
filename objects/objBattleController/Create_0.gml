@@ -1,48 +1,85 @@
+// =====================================================
+// SAFETY CHECK
+// =====================================================
 if (!global.rpg_initialized) {
     show_message("ERROR: RPG system was not initialized before battle!");
     game_end();
 }
 
-// Not Move in battle
-objPlayer.canMove = false;	
+// =====================================================
+// LOCK PLAYER
+// =====================================================
+objPlayer.canMove = false;
 objPlayer.xSpeed = 0;
 objPlayer.ySpeed = 0;
 objPlayer.image_index = 0;
-//instance_deactivate_object(objPlayer);
 
-
-// ==== PARTY SETUP (1–4 members) ====
-
+// =====================================================
+// PARTY SETUP
+// =====================================================
 party = global.party;
 
-// You can add up to 2 more characters the same way if you want.
-// Just keep the array length <= 4.
+// =====================================================
+// ENEMY SETUP (MULTI-ENEMY READY)
+// =====================================================
 
-// ==== ENEMY SETUP (one enemy for now) ====
+// Enemy DATA (logic)
+enemies = [];
 
-enemy = {
-    name: global.enemy_slime.name,
-    hp_max: global.enemy_slime.hp_max,
-    hp: global.enemy_slime.hp_max,
-    atk: global.enemy_slime.atk,
-    def: global.enemy_slime.def,
-    sprite: global.enemy_slime.sprite
-};
+// Push enemies here (later you’ll push multiple)
+array_push(enemies, {
+    name: global.enemy_mossSpawn.name,
+    hp_max: global.enemy_mossSpawn.hp_max,
+    hp: global.enemy_mossSpawn.hp_max,
+    atk: global.enemy_mossSpawn.atk,
+    def: global.enemy_mossSpawn.def,
+    sprite: global.enemy_mossSpawn.sprite
+});
 
-// ==== TURN / UI STATE ====
+// Enemy VISUAL INSTANCES
+enemy_insts = [];
 
+// Positioning
+var base_x  = room_width * 0.5;
+var base_y  = room_height * 0.35;
+var spacing = 96;
+
+// Spawn enemy visuals
+for (var i = 0; i < array_length(enemies); i++)
+{
+    var inst = instance_create_layer(
+        base_x + (i - (array_length(enemies) - 1) / 2) * spacing,
+        base_y,
+        "Instances",
+        objBattleEnemy
+    );
+
+    // Assign data AFTER creation
+    inst.enemy_data = enemies[i];
+
+    // Initialize visuals AFTER data exists
+    with (inst) {
+        scrBattleEnemySetup(enemy_data);
+    }
+
+    enemy_insts[i] = inst;
+}
+
+// =====================================================
+// TURN / UI STATE
+// =====================================================
 battle_state = BattleState.PARTY_COMMAND;
 
-active_party_index = 0;   // whose box is active
-command_index      = 0;   // Attack / Defend / Item / Flee
-attack_index       = 0;   // which offense skill
-defend_index       = 0;   // which defense skill
+active_party_index = 0;
+command_index      = 0;
+attack_index       = 0;
+defend_index       = 0;
 
 commands = ["Attack", "Defend", "Item", "Flee"];
 
 current_message = "";
 state_next      = BattleState.PARTY_COMMAND;
-message_shown = false;
+message_shown   = false;
 
-// For a very simple "defend" buff:
+// Guard flags
 party_guarding = array_create(array_length(party), false);

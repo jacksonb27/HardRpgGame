@@ -336,7 +336,6 @@
     {"name":"inst_5CBB6413","path":"rooms/castleOutskirtsRoomNorth/castleOutskirtsRoomNorth.yy",},
     {"name":"inst_4E0BD3EF","path":"rooms/castleOutskirtsRoomNorth/castleOutskirtsRoomNorth.yy",},
     {"name":"inst_5E564F21","path":"rooms/castleOutskirtsRoomNorth/castleOutskirtsRoomNorth.yy",},
-    {"name":"inst_70D9C178","path":"rooms/castleOutskirtsRoomNorth/castleOutskirtsRoomNorth.yy",},
     {"name":"inst_6BD3BD46","path":"rooms/castleOutskirtsRoomNorth/castleOutskirtsRoomNorth.yy",},
   ],
   "isDnd":false,
@@ -672,7 +671,6 @@
       ],"layers":[],"name":"TallGrass","properties":[],"resourceType":"GMRInstanceLayer","resourceVersion":"2.0","userdefinedDepth":false,"visible":true,},
     {"$GMRInstanceLayer":"","%Name":"Interactables","depth":500,"effectEnabled":true,"effectType":null,"gridX":32,"gridY":32,"hierarchyFrozen":false,"inheritLayerDepth":false,"inheritLayerSettings":false,"inheritSubLayers":true,"inheritVisibility":true,"instances":[
         {"$GMRInstance":"v2","%Name":"inst_5612EEFC","colour":4294967295,"frozen":false,"hasCreationCode":false,"ignore":false,"imageIndex":0,"imageSpeed":1.0,"inheritCode":false,"inheritedItemId":null,"inheritItemSettings":false,"isDnd":false,"name":"inst_5612EEFC","objectId":{"name":"objOutskirtsLamp","path":"objects/objOutskirtsLamp/objOutskirtsLamp.yy",},"properties":[],"resourceType":"GMRInstance","resourceVersion":"2.0","rotation":0.0,"scaleX":1.0,"scaleY":1.0,"x":1408.0,"y":160.0,},
-        {"$GMRInstance":"v2","%Name":"inst_70D9C178","colour":4294967295,"frozen":false,"hasCreationCode":false,"ignore":false,"imageIndex":0,"imageSpeed":1.0,"inheritCode":false,"inheritedItemId":null,"inheritItemSettings":false,"isDnd":false,"name":"inst_70D9C178","objectId":{"name":"objSqacornEnemyGetAttack","path":"objects/objSqacornEnemyGetAttack/objSqacornEnemyGetAttack.yy",},"properties":[],"resourceType":"GMRInstance","resourceVersion":"2.0","rotation":0.0,"scaleX":1.0,"scaleY":1.0,"x":576.0,"y":704.0,},
       ],"layers":[],"name":"Interactables","properties":[],"resourceType":"GMRInstanceLayer","resourceVersion":"2.0","userdefinedDepth":false,"visible":true,},
     {"$GMRInstanceLayer":"","%Name":"Instances","depth":600,"effectEnabled":true,"effectType":null,"gridX":32,"gridY":32,"hierarchyFrozen":false,"inheritLayerDepth":false,"inheritLayerSettings":false,"inheritSubLayers":true,"inheritVisibility":true,"instances":[
         {"$GMRInstance":"v2","%Name":"inst_2B7C85C7_1_1","colour":4294967295,"frozen":false,"hasCreationCode":false,"ignore":false,"imageIndex":0,"imageSpeed":1.0,"inheritCode":false,"inheritedItemId":null,"inheritItemSettings":false,"isDnd":false,"name":"inst_2B7C85C7_1_1","objectId":{"name":"objSettings","path":"objects/objSettings/objSettings.yy",},"properties":[],"resourceType":"GMRInstance","resourceVersion":"2.0","rotation":0.0,"scaleX":1.0,"scaleY":1.0,"x":0.0,"y":0.0,},

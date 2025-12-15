@@ -6,13 +6,11 @@ var cancel  = keyboard_check_pressed(vk_escape) || keyboard_check_pressed(ord("X
 // ---------------------------------------------------------
 // Helper: decide who goes next after a PARTY ACTION
 // ---------------------------------------------------------
-/// Sets state_next and active_party_index appropriately
 function _advance_after_party_action()
 {
     var party_count = array_length(party);
     var found_next  = -1;
 
-    // Look for next living member after current
     for (var step = 1; step <= party_count; step++)
     {
         var idx = (active_party_index + step) mod party_count;
@@ -24,21 +22,28 @@ function _advance_after_party_action()
     }
 
     if (found_next == -1) {
-        // nobody else alive (will be caught by lose logic later)
         state_next = BattleState.ENEMY_TURN;
     }
     else if (found_next > active_party_index) {
-        // still later in list this round → next party member acts
         active_party_index = found_next;
         state_next = BattleState.PARTY_COMMAND;
     }
     else {
-        // wrapped back to an earlier index → whole party has acted
-        active_party_index = found_next; // start next round from earliest living
+        active_party_index = found_next;
         state_next = BattleState.ENEMY_TURN;
     }
 }
 
+// ---------------------------------------------------------
+// Helper: first living enemy index (for now = "current target")
+// ---------------------------------------------------------
+function _get_first_living_enemy()
+{
+    for (var i = 0; i < array_length(enemies); i++)
+        if (enemies[i].hp > 0) return i;
+
+    return -1;
+}
 
 switch (battle_state) {
 
@@ -76,7 +81,7 @@ switch (battle_state) {
         if (confirm) {
 
             var base_actor = party[active_party_index];
-            var actor  = calc_final_stats(base_actor);
+            var actor      = calc_final_stats(base_actor);
 
             var weapon = global.weapon_db[ base_actor.weapon ];
             var armor  = global.armor_db[ base_actor.armor ];
@@ -102,10 +107,8 @@ switch (battle_state) {
                     var def_skills = armor.skills;
 
                     if (array_length(def_skills) <= 0) {
-                        // basic defend
                         party_guarding[active_party_index] = true;
                         current_message = actor.name + " braces!";
-                        // advance to next party member / enemy
                         _advance_after_party_action();
                         battle_state = BattleState.MESSAGE;
                     } else {
@@ -166,21 +169,42 @@ switch (battle_state) {
                 battle_state = BattleState.MESSAGE;
             } else {
 
-                // Spend MP on REAL data
+                // Find target enemy (first living, until you add targeting)
+                var enemy_i = _get_first_living_enemy();
+                if (enemy_i == -1) {
+                    current_message = "No enemies remain!";
+                    state_next = BattleState.WIN;
+                    battle_state = BattleState.MESSAGE;
+                    break;
+                }
+
+                // Spend MP on REAL party data
                 party[active_party_index].mp -= skill.mp_cost;
 
-                // Damage
-                var dmg = scr_calc_damage(actor.atk, skill.sPower, enemy.def);
-                enemy.hp = max(0, enemy.hp - dmg);
+                // Read enemy struct, apply damage, write back
+                var e = enemies[enemy_i];
+
+                var dmg = scr_calc_damage(actor.atk, skill.sPower, e.def);
+                e.hp = max(0, e.hp - dmg);
+                enemies[enemy_i] = e;
+
+                // Flash the correct enemy sprite
+                if (array_length(enemy_insts) > enemy_i && instance_exists(enemy_insts[enemy_i]))
+                    enemy_insts[enemy_i].hit_flash = 12;
 
                 current_message =
                     actor.name + " used " + skill.name + "!\n" +
                     "It dealt " + string(dmg) + " damage!";
 
-                if (enemy.hp <= 0) {
+                // If all enemies dead → win, else continue turn flow
+                var any_alive = false;
+                for (var k = 0; k < array_length(enemies); k++) {
+                    if (enemies[k].hp > 0) { any_alive = true; break; }
+                }
+
+                if (!any_alive) {
                     state_next = BattleState.WIN;
                 } else {
-                    // go to next party member or enemy
                     _advance_after_party_action();
                 }
 
@@ -189,7 +213,6 @@ switch (battle_state) {
         }
 
     break;
-
 
 
     // ============================================================
@@ -224,7 +247,6 @@ switch (battle_state) {
                 party_guarding[active_party_index] = true;
 
                 current_message = actor.name + " casts " + skill.name + "!";
-                // advance to next party member / enemy
                 _advance_after_party_action();
             }
 
@@ -239,16 +261,18 @@ switch (battle_state) {
     // ============================================================
     case BattleState.ENEMY_TURN:
 
-        // Safety: shouldn't really happen if enemy is dead,
-        // but if it does, just treat as win.
-        if (enemy.hp <= 0) {
-            current_message = enemy.name + " has been defeated!";
+        // Pick first living enemy as "attacker" for now
+        var enemy_i = _get_first_living_enemy();
+        if (enemy_i == -1) {
+            current_message = "Enemies defeated!";
             state_next = BattleState.WIN;
             battle_state = BattleState.MESSAGE;
             break;
         }
 
-        // Build list of living party members
+        var e = enemies[enemy_i];
+
+        // Living party list
         var living = [];
         for (var i = 0; i < array_length(party); i++)
             if (party[i].hp > 0) array_push(living, i);
@@ -260,11 +284,10 @@ switch (battle_state) {
             break;
         }
 
-        // Pick random target among living
         var t = living[ irandom(array_length(living)-1) ];
         var target_stats = calc_final_stats(party[t]);
 
-        var dmg = scr_calc_damage(enemy.atk, 8, target_stats.def);
+        var dmg = scr_calc_damage(e.atk, 8, target_stats.def);
 
         if (party_guarding[t]) {
             dmg = floor(dmg * 0.5);
@@ -273,10 +296,10 @@ switch (battle_state) {
 
         party[t].hp = max(0, party[t].hp - dmg);
 
-        current_message = enemy.name + " attacks " + party[t].name +
+        current_message = e.name + " attacks " + party[t].name +
                           " for " + string(dmg) + "!";
 
-        // Check if all dead
+        // Check party wipe
         var all_dead = true;
         for (var j = 0; j < array_length(party); j++)
             if (party[j].hp > 0) all_dead = false;
@@ -284,7 +307,7 @@ switch (battle_state) {
         if (all_dead) {
             state_next = BattleState.LOSE;
         } else {
-            // set next active to first living member to start new round
+            // Start new round at first living party member
             var first_idx = -1;
             for (var k = 0; k < array_length(party); k++) {
                 if (party[k].hp > 0) { first_idx = k; break; }
@@ -313,14 +336,15 @@ switch (battle_state) {
             message_shown = false;
 
             if (state_next == BattleState.WIN) {
-                current_message = enemy.name + " has been defeated!";
+                // show defeat text using first enemy (or generic)
+                var idx = _get_first_living_enemy();
+                current_message = (idx == -1) ? "Enemies defeated!" : (enemies[idx].name + " has been defeated!");
                 state_next = BattleState.WIN + 1;
                 break;
             }
 
             if (state_next == BattleState.WIN + 1) {
-				instance_activate_object(objPlayer);
-				objPlayer.canMove = true;
+                objPlayer.canMove = true;
                 room_goto(global.last_room_before_battle);
                 break;
             }
@@ -332,17 +356,12 @@ switch (battle_state) {
     break;
 
 
-    // ============================================================
-    // WIN → return to overworld
-    // ============================================================
     case BattleState.WIN:
-        if (confirm) 
-		{
-			objPlayer.canMove = true;
-			room_goto(global.last_room_before_battle);
-		}
+        if (confirm) {
+            objPlayer.canMove = true;
+            room_goto(global.last_room_before_battle);
+        }
     break;
-
 
     case BattleState.LOSE:
         // game over logic later

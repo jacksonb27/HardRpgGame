@@ -30,8 +30,8 @@
   "resourceVersion":"2.0",
   "solid":false,
   "spriteId":{
-    "name":"sprMushBoomEnemy",
-    "path":"sprites/sprMushBoomEnemy/sprMushBoomEnemy.yy",
+    "name":"sprMossSpawnBattle",
+    "path":"sprites/sprMossSpawnBattle/sprMossSpawnBattle.yy",
   },
   "spriteMaskId":null,
   "visible":true,

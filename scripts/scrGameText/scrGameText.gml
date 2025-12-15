@@ -46,8 +46,8 @@ switch(textID)
 				scrText("His expertise shows itself in melee and physical combat.");
 				scrText("Is Luis the chosen hero?");
 			
-				scrOption("Yes", "Confirm - Luis");
 				scrOption("No", "Cancel");
+				scrOption("Yes", "Confirm - Luis");
 				break;
 			
 			case "Esther":
@@ -58,8 +58,8 @@ switch(textID)
 				scrText("Her expertise shows itself in ranged and magic combat.");
 				scrText("Is Esther the chosen hero?");
 			
-				scrOption("Yes", "Confirm - Esther");
 				scrOption("No", "Cancel");
+				scrOption("Yes", "Confirm - Esther");
 				break;
 			
 			case "James":
@@ -70,8 +70,8 @@ switch(textID)
 				scrText("His expertise shows itself in connections and resourcefulness.");
 				scrText("Is James the chosen hero?");
 			
-				scrOption("Yes", "Confirm - James");
 				scrOption("No", "Cancel");
+				scrOption("Yes", "Confirm - James");
 				break;
 			//
 			
@@ -79,8 +79,12 @@ switch(textID)
 			// Confirm or Deny
 			case "Confirm - Luis":
 				scrText("A wise selection...");
-				scrText("Who will this hero be?...");
+				scrText("Treat Luis well on your journey. He will not get a second chance.");
+				scrText("Free the world from chaos... restore order to the universe...");
+				scrText("Slay the beasts that inhabit this land... make allies along the way...");
+				scrText("Goodbye... for now...");
 				global.characterSelection = 1;
+				instance_create_layer(x, y, "Instances", objPrologueGameStart);
 				break;
 				
 			case "Confirm - Esther":

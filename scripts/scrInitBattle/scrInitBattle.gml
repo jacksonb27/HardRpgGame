@@ -16,8 +16,8 @@ function scrInitBattle()
 	}
 
 	enum EnemyID {
-	    SLIME,
-	    GOBLIN
+	    MOSS_SPAWN,
+	    GNOME_KID
 	}
 
 	enum SkillIDD {

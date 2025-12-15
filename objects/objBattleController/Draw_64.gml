@@ -1,30 +1,53 @@
 /// DRAW GUI EVENT (SCREEN SPACE)
 
-// Save old font, switch to battle font
+// -------------------------------------------------
+// Font handling
+// -------------------------------------------------
 var _old_font = draw_get_font();
 draw_set_font(fntBattle);
 
+// -------------------------------------------------
+// Screen vars
+// -------------------------------------------------
 var gw = display_get_gui_width();
 var gh = display_get_gui_height();
 
-var name_y_offset = 6;
-var stat_spacing  = 22;
-var command_spacing = 22;
+var name_y_offset    = 6;
+var stat_spacing     = 22;
+var command_spacing  = 22;
 
-// ----------------------------
-// Enemy name + HP
-// ----------------------------
+// -------------------------------------------------
+// ENEMY NAME + HP (first living enemy)
+// -------------------------------------------------
 draw_set_halign(fa_center);
 draw_set_valign(fa_top);
 draw_set_color(c_white);
 
-draw_text(gw * 0.5, gh * 0.08, enemy.name);
-draw_text(gw * 0.5, gh * 0.12, "HP: " + string(enemy.hp) + "/" + string(enemy.hp_max));
+var enemy_to_show = -1;
 
+// Find first living enemy
+for (var i = 0; i < array_length(enemies); i++)
+{
+    if (enemies[i].hp > 0) {
+        enemy_to_show = i;
+        break;
+    }
+}
 
-// --------------------------------------
+if (enemy_to_show != -1)
+{
+    var e = enemies[enemy_to_show];
+    draw_text(gw * 0.5, gh * 0.08, e.name);
+    draw_text(
+        gw * 0.5,
+        gh * 0.12,
+        "HP: " + string(e.hp) + "/" + string(e.hp_max)
+    );
+}
+
+// -------------------------------------------------
 // PARTY BOXES
-// --------------------------------------
+// -------------------------------------------------
 var party_count = array_length(party);
 
 var box_w   = sprite_get_width(sprBattleCharacterBox);
@@ -48,38 +71,52 @@ for (var i = 0; i < party_count; i++)
     var bx = start_x + i * (draw_w + spacing);
     var by = box_y;
 
-    // Draw battle box
-    draw_sprite_ext(sprBattleCharacterBox, 0, bx, by, scale, scale, 0, c_white, 1);
+    // Character box
+    draw_sprite_ext(
+        sprBattleCharacterBox,
+        0,
+        bx,
+        by,
+        scale,
+        scale,
+        0,
+        c_white,
+        1
+    );
 
-    // Highlight active character
+    // Active highlight
     if (i == active_party_index && battle_state == BattleState.PARTY_COMMAND)
     {
-        draw_set_color(c_white);
-        draw_rectangle(bx - 3, by - 3, bx + draw_w + 3, by + draw_h + 3, true);
+        draw_rectangle(
+            bx - 3,
+            by - 3,
+            bx + draw_w + 3,
+            by + draw_h + 3,
+            true
+        );
     }
 
-    // ---- TEXT INSIDE BOX ----
+    // -------------------------
+    // TEXT
+    // -------------------------
     var tx = bx + 14;
     var ty = by + 10;
 
-    // ---- NAME (centered + fake bold) ----
-	var name_x = bx + draw_w * 0.5;
+    // NAME (centered + fake bold)
+    var name_x = bx + draw_w * 0.5;
 
-	draw_set_halign(fa_center);
-	draw_set_color(c_white);
+    draw_set_halign(fa_center);
+    draw_text(name_x,     ty, p.name);
+    draw_text(name_x + 1, ty, p.name);
 
-	draw_text(name_x,     ty, p.name);
-	draw_text(name_x + 1, ty, p.name); // fake bold
+    draw_set_halign(fa_left);
 
-	draw_set_halign(fa_left); // restore for stats + commands
-
-
-    // ---- STATS ----
+    // STATS
     var stat_y = ty + name_y_offset + 32;
     draw_text(tx, stat_y,                "HP: " + string(p.hp) + "/" + string(p.hp_max));
     draw_text(tx, stat_y + stat_spacing, "MP: " + string(p.mp) + "/" + string(p.mp_max));
 
-    // ---- MAIN COMMAND MENU ----
+    // MAIN COMMAND MENU
     if (battle_state == BattleState.PARTY_COMMAND && i == active_party_index)
     {
         var cy = stat_y + stat_spacing * 2 + 12;
@@ -94,81 +131,69 @@ for (var i = 0; i < party_count; i++)
     }
 }
 
-
-
-// -----------------------------------------------------------------
-//  ATTACK SUBMENU (OFFENSIVE SKILLS)
-// -----------------------------------------------------------------
+// -------------------------------------------------
+// ATTACK SUBMENU (weapon skills)
+// -------------------------------------------------
 if (battle_state == BattleState.PARTY_ATTACK_MENU)
 {
     var p      = party[active_party_index];
-    var weapon = global.weapon_db[p.weapon];        // ✅ FIXED
-    var skills = weapon.skills;                     // ✅ weapon skills
+    var weapon = global.weapon_db[p.weapon];
+    var skills = weapon.skills;
 
     var bx = start_x + active_party_index * (draw_w + spacing);
     var by = box_y;
 
     var tx = bx + 14;
-    var ty = by + (draw_h * 0.4);   // lower inside box
-
-    draw_set_color(c_white);
+    var ty = by + draw_h * 0.4;
 
     for (var i = 0; i < array_length(skills); i++)
     {
         var sk = global.skill_db[skills[i]];
-        var text = sk.name + " (" + string(sk.mp_cost) + ")";
+        var txt = sk.name + " (" + string(sk.mp_cost) + ")";
 
         if (i == attack_index)
-            draw_text(tx, ty + i * 25, "> " + text);
+            draw_text(tx, ty + i * 25, "> " + txt);
         else
-            draw_text(tx + 12, ty + i * 25, text);
+            draw_text(tx + 12, ty + i * 25, txt);
     }
 
-    // Cancel hint text
     draw_set_color(c_yellow);
     draw_text(tx, ty + array_length(skills) * 22 + 16, "Press X to cancel");
 }
 
-
-
-// -----------------------------------------------------------------
-//  DEFEND SUBMENU (DEFENSIVE SKILLS)
-// -----------------------------------------------------------------
+// -------------------------------------------------
+// DEFEND SUBMENU (armor skills)
+// -------------------------------------------------
 if (battle_state == BattleState.PARTY_DEFEND_MENU)
 {
-    var p      = party[active_party_index];
-    var armor  = global.armor_db[p.armor];
-    var skills = armor.skills;                       // ✅ armor skills
+    var p     = party[active_party_index];
+    var armor = global.armor_db[p.armor];
+    var skills = armor.skills;
 
     var bx = start_x + active_party_index * (draw_w + spacing);
     var by = box_y;
 
     var tx = bx + 14;
-    var ty = by + (draw_h * 0.4);
-
-    draw_set_color(c_white);
+    var ty = by + draw_h * 0.4;
 
     for (var i = 0; i < array_length(skills); i++)
     {
         var sk = global.skill_db[skills[i]];
-        var text = sk.name + " (" + string(sk.mp_cost) + ")";
+        var txt = sk.name + " (" + string(sk.mp_cost) + ")";
 
         if (i == defend_index)
-            draw_text(tx, ty + i * 22, "> " + text);
+            draw_text(tx, ty + i * 22, "> " + txt);
         else
-            draw_text(tx + 12, ty + i * 22, text);
+            draw_text(tx + 12, ty + i * 22, txt);
     }
 
-    // Cancel hint text
     draw_set_color(c_yellow);
     draw_text(tx, ty + array_length(skills) * 22 + 16, "Press X to cancel");
 }
 
-
-
-// --------------------------------------
+// -------------------------------------------------
 // MESSAGE BOX
-// --------------------------------------
+// -------------------------------------------------
 if (current_message != "")
 {
     var mb_w = gw - 48;
@@ -176,15 +201,15 @@ if (current_message != "")
     var mb_x = 24;
     var mb_y = gh - mb_h - 16;
 
-    draw_set_color(make_color_rgb(50, 50, 50));
+    draw_set_color(make_color_rgb(50,50,50));
     draw_rectangle(mb_x, mb_y, mb_x + mb_w, mb_y + mb_h, false);
 
     draw_set_color(c_white);
     draw_text(mb_x + 12, mb_y + 10, current_message);
-
     draw_text(mb_x + mb_w - 85, mb_y + mb_h - 22, "[Z]");
 }
 
-
-// Restore previous font
+// -------------------------------------------------
+// Restore font
+// -------------------------------------------------
 draw_set_font(_old_font);
